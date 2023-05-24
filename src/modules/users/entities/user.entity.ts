@@ -9,9 +9,11 @@ export class User {
   email: string;
   telephone: string;
   date: string;
+  contacts: string[];
 
   constructor() {
     this.id = randomUUID();
     this.date = new Date().toDateString();
+    this.contacts = [];
   }
 }

@@ -1,9 +1,11 @@
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../../dto/create-user.dto';
 import { UpdateUserDto } from '../../dto/update-user.dto';
 import { User } from '../../entities/user.entity';
 import { UsersRepository } from '../users.repositories';
 import { plainToInstance } from 'class-transformer';
 
+@Injectable()
 export class UsersInMemoryRepository implements UsersRepository {
   private database: User[] = [];
   create(data: CreateUserDto): User | Promise<User> {
@@ -21,12 +23,17 @@ export class UsersInMemoryRepository implements UsersRepository {
   }
 
   findOne(id: string): User | Promise<User> {
-    const user = this.database.find((user) => (user.id = id));
+    const user = this.database.find((user) => user.id === id);
+    return plainToInstance(User, user);
+  }
+  
+  findByEmail(email: string): User | Promise<User> {
+    const user = this.database.find((user) => user.email === email);
     return plainToInstance(User, user);
   }
 
   update(id: string, data: UpdateUserDto): User | Promise<User> {
-    const userIndex = this.database.findIndex((user) => (user.id = id));
+    const userIndex = this.database.findIndex((user) => user.id === id);
     this.database[userIndex] = {
       ...this.database[userIndex],
       ...data,

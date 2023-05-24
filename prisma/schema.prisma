@@ -18,6 +18,8 @@ model User {
   telephone String
   date      String
   contacts  Contact[]
+
+  @@map("users")
 }
 
 model Contact {
@@ -28,4 +30,6 @@ model Contact {
   date      String
   userId    String
   user      User   @relation(fields: [userId], references: [id])
+
+  @@map("contacts")
 }

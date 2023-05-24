@@ -19,7 +19,7 @@ export class ContactsInMemoryRepository implements ContactsRepository {
   update(id: string, data: UpdateContactDto): Contact | Promise<Contact> {
     throw new Error('Method not implemented.');
   }
-  delete(id: string): void | Promise<Contact> {
+  async delete(id: string): Promise<void | Contact> {
     throw new Error('Method not implemented.');
   }
 }

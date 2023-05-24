@@ -10,5 +10,5 @@ export abstract class ContactsRepository {
     id: string,
     data: UpdateContactDto,
   ): Promise<Contact> | Contact;
-  abstract delete(id: string): Promise<Contact> | void;
+  abstract delete(id: string): Promise<Contact | void>;
 }

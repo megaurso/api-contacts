@@ -18,7 +18,7 @@ export class UsersInMemoryRepository implements UsersRepository {
     return plainToInstance(User, newUser);
   }
 
-  findall(): User[] | Promise<User[]> {
+  findAll(): User[] | Promise<User[]> {
     return plainToInstance(User, this.database);
   }
 
@@ -41,7 +41,7 @@ export class UsersInMemoryRepository implements UsersRepository {
     return plainToInstance(User, this.database[userIndex]);
   }
 
-  delete(id: string): void | Promise<User> {
+  async delete(id: string):Promise<User | void>{
     const userIndex = this.database.findIndex((user) => (user.id = id));
     this.database.splice(userIndex, 1);
   }

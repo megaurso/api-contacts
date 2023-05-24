@@ -22,7 +22,7 @@ export class UsersService {
   }
 
   async findAll() {
-    const users = await this.usersRepository.findall();
+    const users = await this.usersRepository.findAll();
     return users;
   }
 

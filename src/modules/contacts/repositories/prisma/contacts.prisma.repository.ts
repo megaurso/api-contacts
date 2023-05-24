@@ -48,10 +48,18 @@ export class ContactsPrismaRepository implements ContactsRepository {
     return plainToInstance(Contact, user);
   }
 
-  update(id: string, data: UpdateContactDto): Promise<Contact> {
-    throw new Error('Method not implemented.');
+  async update(id: string, data: UpdateContactDto): Promise<Contact> {
+    const contact = await this.prisma.contact.update({
+      where: { id },
+      data: {
+        email: data.email,
+        name: data.name,
+        telephone: data.telephone,
+      },
+    });
+    return plainToInstance(Contact, contact);
   }
-  
+
   async delete(id: string): Promise<void> {
     await this.prisma.contact.delete({
       where: { id },

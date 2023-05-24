@@ -65,7 +65,13 @@ export class UsersPrismaRepository implements UsersRepository {
     return plainToInstance(User, user);
   }
 
-  async delete(id: string): Promise<User | void> {
+  async delete(id: string): Promise<void> {
+    await this.prisma.contact.deleteMany({
+      where: {
+        userId: id,
+      },
+    });
+    
     await this.prisma.user.delete({
       where: { id },
     });

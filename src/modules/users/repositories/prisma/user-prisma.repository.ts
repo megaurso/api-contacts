@@ -29,11 +29,13 @@ export class UsersPrismaRepository implements UsersRepository {
   }
 
   async findAll(): Promise<User[]> {
-    const users = await this.prisma.user.findMany();
-    const userInstances = users.map((user: User) =>
-      plainToInstance(User, user),
-    );
-    return userInstances;
+    const users = await this.prisma.user.findMany({
+      include: {
+        contacts: true,
+      },
+    });
+
+    return plainToInstance(User, users);
   }
 
   async findOne(id: string): Promise<User> {
@@ -51,7 +53,7 @@ export class UsersPrismaRepository implements UsersRepository {
   }
 
   async update(id: string, userData: UpdateUserDto): Promise<User> {
-    return new User()
+    return new User();
     // const user = await this.prisma.user.update({
     //   where: { id },
     //   data: data: {

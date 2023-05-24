@@ -4,6 +4,7 @@ import { CreateContactDto } from '../../dto/create-contact.dto';
 import { UpdateContactDto } from '../../dto/update-contact.dto';
 import { Contact } from '../../entities/contact.entity';
 import { PrismaService } from 'src/database/prisma.service';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class ContactsPrismaRepository implements ContactsRepository {
@@ -16,21 +17,22 @@ export class ContactsPrismaRepository implements ContactsRepository {
 
     const newContact = await this.prisma.contact.create({
       data: {
-        date:contacts.date,
-        email:contacts.email,
-        id:contacts.id,
-        name:contacts.name,
-        telephone:contacts.telephone,
-        userId: contacts.userId
-      }
+        date: contacts.date,
+        email: contacts.email,
+        id: contacts.id,
+        name: contacts.name,
+        telephone: contacts.telephone,
+        userId: contacts.userId,
+      },
     });
 
     return newContact;
   }
-  async findall(): Promise<Contact[]> {
+  async findAll(): Promise<Contact[]> {
     const contacts = await this.prisma.contact.findMany();
     return contacts;
   }
+
   async findOne(id: string): Promise<Contact> {
     const contact = await this.prisma.contact.findUnique({
       where: { id },
@@ -38,12 +40,21 @@ export class ContactsPrismaRepository implements ContactsRepository {
 
     return contact;
   }
+
+  async findByEmail(email: string): Promise<Contact> {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+    });
+    return plainToInstance(Contact, user);
+  }
+
   update(id: string, data: UpdateContactDto): Promise<Contact> {
     throw new Error('Method not implemented.');
   }
+  
   async delete(id: string): Promise<void> {
     await this.prisma.contact.delete({
-        where: { id },
-      });
-    }
+      where: { id },
+    });
+  }
 }

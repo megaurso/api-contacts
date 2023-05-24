@@ -1,6 +1,6 @@
 import { hashSync } from 'bcryptjs';
 import { Transform } from 'class-transformer';
-import { IsString, IsNotEmpty, IsEmail, MinLength, IsArray } from 'class-validator';
+import { IsString, IsNotEmpty, IsEmail, MinLength, IsArray, IsOptional } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -24,5 +24,6 @@ export class CreateUserDto {
   telephone: string;
 
   @IsArray()
+  @IsOptional()
   contacts: string[];
 }

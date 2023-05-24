@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
+import { ContactsRepository } from './repositories/contacts.repository';
+import { UsersRepository } from '../users/repositories/users.repositories';
 
 @Injectable()
 export class ContactsService {
-  create(createContactDto: CreateContactDto) {
-    return 'This action adds a new contact';
+  constructor(private contactRepository: ContactsRepository) {}
+  async create(createContactDto: CreateContactDto) {
+    const { email } = createContactDto;
+
+    const existingContact = await this.contactRepository.findOne(email);
+    if (existingContact) {
+      throw new ConflictException('Email already exists!');
+    }
+    const contact = await this.contactRepository.create(createContactDto);
+    return contact;
   }
 
-  findAll() {
-    return `This action returns all contacts`;
+  async findAll() {
+    const contact = await this.contactRepository.findAll();
+    return contact;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} contact`;
+  async findOne(id: string) {
+    const contact = await this.contactRepository.findOne(id);
+    if (!contact) {
+      throw new NotFoundException('User not found!');
+    }
+    return contact;
   }
 
-  update(id: string, updateContactDto: UpdateContactDto) {
-    return `This action updates a #${id} contact`;
+  async update(id: string, updateContactDto: UpdateContactDto) {
+    const findUser = await this.contactRepository.findOne(id);
+    if (!findUser) {
+      throw new NotFoundException('User not found!');
+    }
+    const user = await this.contactRepository.update(id, updateContactDto);
+
+    return user;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} contact`;
+  async remove(id: string) {
+    const contact = await this.contactRepository.findOne(id);
+    if (!contact) {
+      throw new NotFoundException('Contact not found!');
+    }
+    await this.contactRepository.delete(id);
+    return;
   }
 }

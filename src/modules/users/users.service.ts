@@ -27,15 +27,26 @@ export class UsersService {
   }
 
   async findOne(id: string) {
-    const users = await this.usersRepository.findOne(id);
-    if (!users) {
+    const user = await this.usersRepository.findOne(id);
+    if (!user) {
       throw new NotFoundException('User not found!');
     }
-    return users;
+    return user;
+  }
+
+  async findByEmail(email: string) {
+    const user = await this.usersRepository.findByEmail(email);
+    return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
     const findUser = await this.usersRepository.findOne(id);
+    const findUseremail = await this.usersRepository.findByEmail(
+      updateUserDto.email,
+    );
+    if (findUseremail) {
+      throw new ConflictException('Email already exists!');
+    }
     if (!findUser) {
       throw new NotFoundException('User not found!');
     }

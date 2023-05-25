@@ -6,21 +6,25 @@ import {
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
 import { ContactsRepository } from './repositories/contacts.repository';
-import { UsersRepository } from '../users/repositories/users.repositories';
+
 
 @Injectable()
 export class ContactsService {
   constructor(private contactRepository: ContactsRepository) {}
-  async create(createContactDto: CreateContactDto) {
+  async create(createContactDto: CreateContactDto, userId: string) {
     const { email } = createContactDto;
 
-    const existingContact = await this.contactRepository.findOne(email);
-    if (existingContact) {
+    const existingContact = await this.contactRepository.findByEmail(email);
+    if (existingContact.email === email) {
       throw new ConflictException('Email already exists!');
     }
-    const contact = await this.contactRepository.create(createContactDto);
+    const contact = await this.contactRepository.create(
+      createContactDto,
+      userId,
+    );
     return contact;
   }
+  
 
   async findAll() {
     const contact = await this.contactRepository.findAll();

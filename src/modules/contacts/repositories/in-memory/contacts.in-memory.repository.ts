@@ -8,10 +8,11 @@ import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class ContactsInMemoryRepository implements ContactsRepository {
   private database: Contact[] = [];
-  create(data: CreateContactDto): Contact | Promise<Contact> {
+  create(data: CreateContactDto, userId: string): Contact | Promise<Contact> {
     const newContact = new Contact();
     Object.assign(newContact, {
       ...data,
+      userId: userId,
     });
 
     this.database.push(newContact);

@@ -49,7 +49,7 @@ export class UsersPrismaRepository implements UsersRepository {
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
-    return plainToInstance(User, user);
+    return user;
   }
 
   async update(id: string, userData: UpdateUserDto): Promise<User> {
@@ -71,7 +71,7 @@ export class UsersPrismaRepository implements UsersRepository {
         userId: id,
       },
     });
-    
+
     await this.prisma.user.delete({
       where: { id },
     });

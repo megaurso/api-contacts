@@ -11,14 +11,17 @@ import { UsersRepository } from '../users/repositories/users.repositories';
 @Injectable()
 export class ContactsService {
   constructor(private contactRepository: ContactsRepository) {}
-  async create(createContactDto: CreateContactDto) {
+  async create(createContactDto: CreateContactDto, userId: string) {
     const { email } = createContactDto;
 
     const existingContact = await this.contactRepository.findOne(email);
     if (existingContact) {
       throw new ConflictException('Email already exists!');
     }
-    const contact = await this.contactRepository.create(createContactDto);
+    const contact = await this.contactRepository.create(
+      createContactDto,
+      userId,
+    );
     return contact;
   }
 

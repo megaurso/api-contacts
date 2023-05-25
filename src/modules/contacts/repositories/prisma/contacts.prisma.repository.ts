@@ -9,7 +9,7 @@ import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class ContactsPrismaRepository implements ContactsRepository {
   constructor(private prisma: PrismaService) {}
-  async create(data: CreateContactDto): Promise<Contact> {
+  async create(data: CreateContactDto, userId: string): Promise<Contact> {
     const contacts = new Contact();
     Object.assign(contacts, {
       ...data,
@@ -22,7 +22,7 @@ export class ContactsPrismaRepository implements ContactsRepository {
         id: contacts.id,
         name: contacts.name,
         telephone: contacts.telephone,
-        userId: contacts.userId,
+        userId,
       },
     });
 

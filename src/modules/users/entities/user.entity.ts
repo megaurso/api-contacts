@@ -9,7 +9,7 @@ export class User {
   email: string;
   telephone: string;
   date: string;
-  contacts: string[];
+  contacts?: string[];
 
   constructor() {
     this.id = randomUUID();

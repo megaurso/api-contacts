@@ -42,7 +42,7 @@ export class ContactsPrismaRepository implements ContactsRepository {
   }
 
   async findByEmail(email: string): Promise<Contact> {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prisma.contact.findUnique({
       where: { email },
     });
     return plainToInstance(Contact, user);

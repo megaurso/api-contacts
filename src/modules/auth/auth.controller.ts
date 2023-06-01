@@ -1,7 +1,7 @@
 import { ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './local-Auth.guard';
+import { LocalAuthGuard } from './local-auth.guard';
 import { LoginDto } from './dto/login.dto';
 
 @ApiTags('login')

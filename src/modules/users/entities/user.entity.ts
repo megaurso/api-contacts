@@ -1,5 +1,7 @@
 import { Exclude } from 'class-transformer';
 import { randomUUID } from 'crypto';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 export class User {
   id: string;
@@ -13,7 +15,13 @@ export class User {
 
   constructor() {
     this.id = randomUUID();
-    this.date = new Date().toDateString();
+    const options = {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+      locale: ptBR,
+    };
+    this.date = format(new Date(), 'P', options);
     this.contacts = [];
   }
 }

@@ -1,17 +1,14 @@
-import { Exclude } from 'class-transformer';
 import { randomUUID } from 'crypto';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-export class User {
+export class Contact {
   id: string;
   name: string;
-  @Exclude()
-  password: string;
   email: string;
   telephone: string;
   date: string;
-  contacts?: string[];
+  userId: string;
 
   constructor() {
     this.id = randomUUID();
@@ -22,6 +19,5 @@ export class User {
       locale: ptBR,
     };
     this.date = format(new Date(), 'P', options);
-    this.contacts = [];
   }
 }

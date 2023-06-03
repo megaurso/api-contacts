@@ -4,6 +4,18 @@
 $ npm install
 ```
 
+## Make migration  
+
+```bash
+npx prisma migrate dev
+```
+
+## Using example on variable env.example for make your database 
+```bash
+DATABASE_URL="postgresql://user:password@host:port/db?schema=public"
+SECRET_KEY=
+```
+
 ## Running the app on port 3000
 
 ```bash

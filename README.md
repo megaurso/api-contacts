@@ -29,6 +29,6 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## routes os http://localhost:3000/api
+## routes in http://localhost:3000/api
 
 
